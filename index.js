@@ -1,7 +1,7 @@
 const url = require('url');
 const Client = require('./client');
 const resources = {
-    client: require('./resources/client'),
+    clients: require('./resources/clients'),
     domains: require('./resources/domains'),
     orders: require('./resources/orders')
 };
