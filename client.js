@@ -1,7 +1,9 @@
 const http = require('http');
+const https = require('https');
 const querystring = require('querystring');
 
 const WHMCS_API_PATH = '/includes/api.php';
+const HTTP_PROTOCOL = 'http:';
 
 /**
  * An instance of the Client class provides low level HTTP wrapper methods.
@@ -12,10 +14,6 @@ const WHMCS_API_PATH = '/includes/api.php';
 class Client {
     constructor(WHMCS) {
         this._WHMCS = WHMCS;
-    }
-
-    baseUrl() {
-        return this._WHMCS.baseUrl();
     }
 
     get(action, options) {
@@ -39,19 +37,31 @@ class Client {
     }
 
     request(action, options) {
+        let req;
         const timeout = this._WHMCS.timeout;
+        const baseUrl = this._WHMCS.baseUrl();
         const headers = {
             'Content-Type': 'application/x-www-form-urlencoded',
             'User-Agent': this._WHMCS.userAgent()
         };
 
-        const req = http.request({
-            host: this._WHMCS.baseUrl().hostname,
-            port: this._WHMCS.baseUrl().port || 80,
-            path: WHMCS_API_PATH,
-            method: 'POST',
-            headers: headers
-        });
+        if (baseUrl.protocol === HTTP_PROTOCOL) {
+            req = http.request({
+                host: baseUrl.hostname,
+                port: baseUrl.port || 80,
+                path: WHMCS_API_PATH,
+                method: 'POST',
+                headers: headers
+            });
+        } else {
+            req = https.request({
+                host: baseUrl.hostname,
+                port: baseUrl.port || 443,
+                path: WHMCS_API_PATH,
+                method: 'POST',
+                headers: headers
+            });
+        }
 
         const data = querystring.stringify({
             identifier: this._WHMCS.apiId(),
