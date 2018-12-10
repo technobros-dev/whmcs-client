@@ -3,7 +3,8 @@ const Client = require('./client');
 const resources = {
     clients: require('./resources/clients'),
     domains: require('./resources/domains'),
-    orders: require('./resources/orders')
+    orders: require('./resources/orders'),
+    support: require('./resources/support')
 };
 
 WHMCS.VERSION = '1.0.0';
