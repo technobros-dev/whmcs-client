@@ -1,6 +1,7 @@
 const url = require('url');
 const Client = require('./client');
 const resources = {
+    authentication: require('./resources/authentication'),
     billing: require('./resources/billing'),
     clients: require('./resources/clients'),
     domains: require('./resources/domains'),
