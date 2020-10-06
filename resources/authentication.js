@@ -27,6 +27,22 @@ class Authentication {
     }
 
     /**
+     * Create a single use, client or user single sign-on access token
+     *
+     * @see https://developers.whmcs.com/api-reference/createssotoken/
+     *
+     *
+     * @param {Object} [options]
+     * @return {Promise}
+     */
+    createSsoToken(options = {}) {
+        return this._client.get(
+            pascalCase(this.createSsoToken.name),
+            options
+        );
+    }
+
+    /**
      * Deletes an OAuth Credential Record.
      * Removes OAuth Credential record. This action cannot be undone.
      *
